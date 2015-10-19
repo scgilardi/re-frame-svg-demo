@@ -19,7 +19,7 @@
         [left top] [(min x (+ x w)) (min y (+ y h))]
         [right bottom] [(max x (+ x w)) (max y (+ y h))]]
     [:rect {:key id
-            :style {:fill "rgba(0,0,128,0.9)"
+            :style {:fill "rgba(0,0,128,0.7)"
                     :stroke-width 3
                     :stroke :black}
             :x left
