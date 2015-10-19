@@ -1,0 +1,13 @@
+*-init.clj
+*.class
+*.jar
+*.log
+.DS_Store
+/.lein-*
+/.nrepl-port
+/checkouts
+/classes
+/target
+compiled
+pom.xml
+pom.xml.asc
