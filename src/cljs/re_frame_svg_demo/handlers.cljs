@@ -20,25 +20,22 @@
          button-state (if drag :was-down :was-up)]
      (match [type button-state]
             [:mousedown :was-up]
-            (assoc db :drag {:start pos :delta [0 0]})
+            (assoc db :drag {:start pos :pos pos})
             [:mousemove :was-down]
-            (let [[x0 y0] (:start drag)
-                  [x y] pos
-                  delta [(- x x0) (- y y0)]]
-              (update-in db [:drag] assoc :delta delta))
+            (assoc db :drag (assoc drag :pos pos))
             [:mouseup :was-down]
             (do
-              (f/dispatch [:create-item drag])
-              (dissoc db :drag db))
+              (f/dispatch [:create-item (assoc drag :pos pos)])
+              (dissoc db :drag))
             [_ _]
             db))))
 
 (f/register-handler
  :create-item
- (fn [{:keys [next-id] :as db} [_ {:keys [start delta]}]]
+ (fn [{:keys [next-id] :as db} [_ {:keys [start pos]}]]
    (let [item {:id (keyword (str "i" next-id))
-               :pos start
-               :size delta}]
+               :start start
+               :pos pos}]
      (-> db
          (update-in [:next-id] inc)
          (update-in [:items] conj item)))))

@@ -14,17 +14,17 @@
             x (- (.-clientX e) (.-left bounds))
             y (- (.-clientY e) (.-top bounds))
             pos [x y]
-            modifiers (into #{} (remove nil?)
-                            [(if (.-altKey e) :alt)
-                             (if (.-ctrlKey e) :ctrl)
-                             (if (.-metaKey e) :meta)
-                             (if (.-shiftKey e) :shift)])
             button-bits (.-buttons e)
             buttons (into #{}
                           (comp
                            (map #(if (bit-test button-bits %) %))
                            (remove nil?))
                           (range 8))
+            modifiers (into #{} (remove nil?)
+                            [(if (.-altKey e) :alt)
+                             (if (.-ctrlKey e) :ctrl)
+                             (if (.-metaKey e) :meta)
+                             (if (.-shiftKey e) :shift)])
             event {:type type
                    :pos pos
                    :buttons buttons

@@ -12,20 +12,27 @@
        :label (str "Hello from " @name)
        :level :level1])))
 
+(defn points-to-rect
+  "returns a pair of pairs: top-left and (positive) width-height for
+  the rectangle that encloses p0 and p1"
+  [[x0 y0] [x1 y1]]
+  (let [width (Math/abs (- x1 x0))
+        height (Math/abs (- y1 y0))
+        left (min x1 x0)
+        top (min y1 y0)]
+    [[left top] [width height]]))
+
 (defn rect
-  [{:keys [id pos size]}]
-  (let [[x y] pos
-        [w h] size
-        [left top] [(min x (+ x w)) (min y (+ y h))]
-        [right bottom] [(max x (+ x w)) (max y (+ y h))]]
+  [{:keys [id start pos]}]
+  (let [[[left top] [width height]] (points-to-rect start pos)]
     [:rect {:key id
             :style {:fill "rgba(0,0,128,0.7)"
                     :stroke-width 3
                     :stroke :black}
             :x left
             :y top
-            :width (- right left)
-            :height (- bottom top)}]))
+            :width width
+            :height height}]))
 
 (defn svg-pane
   []
@@ -39,10 +46,10 @@
              :on-mouse-down mouse-handler
              :on-mouse-move mouse-handler}
        (concat
-        (when-let [{pos :start size :delta} @drag]
+        (when-let [{:keys [start pos]} @drag]
           [(rect {:id :creating
-                  :pos pos
-                  :size size})])
+                  :start start
+                  :pos pos})])
         (into [] (map rect @items)))])))
 
 (defn clear-button []
@@ -51,7 +58,7 @@
       [c/button
        :label "Clear"
        :class "btn btn-primary"
-       ;; :tooltip "Remove all components"
+       ;; :tooltip "Remove all items
        ;; :tooltip-position :right-center
        :disabled? (empty? @items)
        :on-click #(f/dispatch [:clear-items])])))
