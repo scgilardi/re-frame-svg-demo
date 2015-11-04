@@ -3,7 +3,7 @@
                  [org.clojure/clojurescript "1.7.145"]
                  [org.clojure/core.match "0.3.0-alpha4"]
                  [reagent "0.5.1"]
-                 [re-frame "0.5.0-alpha2"]
+                 [re-frame "0.5.0-alpha3"]
                  [figwheel "0.2.6"]
                  [re-com "0.6.1"]]
 
