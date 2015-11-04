@@ -26,7 +26,8 @@
             [:mouseup :was-down]
             (do
               (f/dispatch [:cleanup-drag])
-              (f/dispatch [:create-item (assoc drag :pos pos)]))
+              (f/dispatch [:create-item (assoc drag :pos pos)])
+              db)
             [_ _]
             db))))
 
