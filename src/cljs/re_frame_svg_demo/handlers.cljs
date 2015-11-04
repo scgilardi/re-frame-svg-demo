@@ -25,10 +25,15 @@
             (assoc db :drag (assoc drag :pos pos))
             [:mouseup :was-down]
             (do
-              (f/dispatch [:create-item (assoc drag :pos pos)])
-              (dissoc db :drag))
+              (f/dispatch [:cleanup-drag])
+              (f/dispatch [:create-item (assoc drag :pos pos)]))
             [_ _]
             db))))
+
+(f/register-handler
+ :cleanup-drag
+ (fn [db [_]]
+   (dissoc db :drag)))
 
 (f/register-handler
  :create-item
