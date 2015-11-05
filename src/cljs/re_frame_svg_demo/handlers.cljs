@@ -1,6 +1,5 @@
 (ns re-frame-svg-demo.handlers
   (:require
-   [cljs.core.match :refer-macros [match]]
    [re-frame.core :as f]))
 
 (def default-db
@@ -18,18 +17,17 @@
  (fn [{:keys [next-id drag] :as db} [_ event]]
    (let [{:keys [type pos buttons modifiers]} event
          button-state (if drag :was-down :was-up)]
-     (match [type button-state]
-            [:mousedown :was-up]
-            (assoc db :drag {:start pos :pos pos})
-            [:mousemove :was-down]
-            (assoc db :drag (assoc drag :pos pos))
-            [:mouseup :was-down]
-            (do
-              (f/dispatch [:cleanup-drag])
-              (f/dispatch [:create-item (assoc drag :pos pos)])
-              db)
-            [_ _]
-            db))))
+     (case [type button-state]
+       [:mousedown :was-up]
+       (assoc db :drag {:start pos :pos pos})
+       [:mousemove :was-down]
+       (assoc db :drag (assoc drag :pos pos))
+       [:mouseup :was-down]
+       (do
+         (f/dispatch [:cleanup-drag])
+         (f/dispatch [:create-item (assoc drag :pos pos)])
+         db)
+       db))))
 
 (f/register-handler
  :cleanup-drag

@@ -1,11 +1,10 @@
 (defproject re-frame-svg-demo "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.145"]
-                 [org.clojure/core.match "0.3.0-alpha4"]
                  [reagent "0.5.1"]
-                 [re-frame "0.5.0-alpha3"]
-                 [figwheel "0.2.6"]
-                 [re-com "0.6.1"]]
+                 [re-frame "0.5.0"]
+                 [figwheel "0.4.1"]
+                 [re-com "0.6.2"]]
 
   :source-paths ["src/clj"]
 
